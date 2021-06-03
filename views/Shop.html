@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/Master.css" rel="stylesheet" />
+
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/knockout-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="Header" data-bind="template: { name: 'header-template', data: header }">
+    </div>
+    <div class="h-100p bg-dark d-flex justify-content-center align-items-center">
+        <label class="h4 text-white">商店</label>
+    </div>
+    <br>
+    <div class="container-fluid" id="Shop">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            分類
+                        </div>
+                        <div class="card-body">
+                            <div class="form-inline">
+                                <span class="w-100 mb-1">價錢區間</span>
+                                <input type="number" class="form-control col-md-5"
+                                    data-bind="textInput: Pmin, event: { change: ()=>{ FilterPrice(); } }" />
+                                <label class="ml-1 mr-1">-</label>
+                                <input type="number" class="form-control col-md-6"
+                                    data-bind="textInput: Pmax, event: { change: ()=>{ FilterPrice(); } }" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="col-12">
+                        <div class="form-inline mb-2">
+                            <label>排序: </label>
+                            <select class="custom-select ml-1" data-bind="event: { change: () =>{ FilterSort(); } }">
+                                <option selected value="0">預設</option>
+                                <option value="1">名稱</option>
+                                <option value="2">價錢</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" data-bind="foreach: ProductList">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div style="overflow:hidden; height:300px;">
+                                    <a href="#"><img class="card-img-top" src="" alt=""
+                                            data-bind="attr: { src: ImgSrc }"></a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#" class="h5 text-decoration-none" data-bind="text: Pname, click: Detail"></a>
+                                    <br />
+                                    <a class="mr-2" href="#" title="加入購物車" data-bind="click: AddCart">
+                                        <svg width="20" height="20" fill="currentColor" class="bi bi-cart-plus"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z" />
+                                            <path
+                                                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                        </svg>
+                                    </a>
+                                    <label class="text-monospace" data-bind="text: '$' + Price()"></label>
+                                    <br />
+                                    <label class="text-muted" data-bind="text: Description"></label>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">★ ★ ★ ★ ☆</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+<script type="text/html" id="header-template">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="Index.html">
+            <svg width="25" height="25" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+            </svg>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="Shop.html">商店</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Member.html">會員中心</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Cart.html">購物車</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="Contact.html">聯絡我們</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="About.html">關於我們</a>
+            </li>
+          </ul>
+        </div>
+        <div>
+            <a class="nav-link" href="Login.html">
+                <svg width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+                <label>User</label>
+            </a>
+        </div>
+      </nav>
+</script>
+<script type="text/javascript">
+    (function () {
+        document.addEventListener("DOMContentLoaded", function () {
+            var Header = function () {
+                var self = this;
+                self.header = ko.observable('');
+            }
+            var Product = function (Obj) {
+                var self = this;
+                self.Pid = ko.observable(Obj.Pid);
+                self.Pname = ko.observable(Obj.Pname);
+                self.Price = ko.observable(Obj.Price);
+                self.Description = ko.observable(Obj.Description);
+                self.Binarys = ko.observable(Obj.Binarys);
+                self.ImgSrc = ko.observable(`../images/product/${self.Pid()}.jpg`);
+                self.Detail = function () {
+                    Swal.fire({
+                        title: self.Pname(),
+                        text: self.Description(),
+                        imageUrl: `../images/product/${self.Pid()}.jpg`,
+                        imageWidth: 'auto',
+                        imageHeight: 250,
+                        imageAlt: 'Custom image',
+                        confirmButtonText: '確定'
+                    });
+                }
+                self.AddCart = function () {
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${self.Pname()}已加入購物車`,
+                        timer: 3500
+                    })
+                }
+            }
+            var Shop = function () {
+                var self = this;
+                self.Pmin = ko.observable(0);
+                self.Pmax = ko.observable(10000);
+                self.ProductList = ko.observableArray([]);
+                self.FilterPrice = function(){};
+                self.FilterSort = function(){};
+                (function () {
+                    var data = [
+                        { Pid: 'p00001', Pname: 'A商品', Price: 500, Description: 'A商品描述描述描述描述描述' },
+                        { Pid: 'p00002', Pname: 'B商品', Price: 1500, Description: 'B商品描述描述描述描述描述' },
+                        { Pid: 'p00003', Pname: 'C商品', Price: 2500, Description: 'C商品描述描述描述描述描述' },
+                        { Pid: 'p00004', Pname: 'D商品', Price: 1200, Description: 'D商品描述描述描述描述描述' },
+                    ];
+                    for (var i = 0; i < data.length; i++) {
+                        self.ProductList.push(new Product({
+                            Pid: data[i].Pid,
+                            Pname: data[i].Pname,
+                            Price: data[i].Price,
+                            Description: data[i].Description,
+                        }));
+                    }
+                })();
+            }
+            ko.applyBindings(new Header(), $('#Header')[0]);
+            ko.applyBindings(new Shop(), $('#Shop')[0]);
+        });
+    })();
+</script>
